@@ -114,6 +114,21 @@
             }
         }
 
+        [Fact]
+        public void Should_camel_case_acronyms()
+        {
+            // Given
+            var input = new { FirstName = "Joe", lastName = "Doe", UUID = "3A3F57F6-8E56-4D37-A7D5-23D20B703DB4", };
+
+            // When
+            var output = new MemoryStream();
+            this.serializer.Serialize("application/json", input, output);
+            var actual = Encoding.UTF8.GetString(output.ToArray());
+
+            // Then
+            actual.ShouldEqual("{\"firstName\":\"Joe\",\"lastName\":\"Doe\",\"uuid\":\"3A3F57F6-8E56-4D37-A7D5-23D20B703DB4\"}");
+        }
+
         public class PersonWithFields
         {
             public string FirstName;
